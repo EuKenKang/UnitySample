@@ -1,0 +1,38 @@
+using UnityEngine;
+
+namespace Script
+{
+    public class PlayerHand : MonoBehaviour
+    {
+        public bool isLeft;
+        public SpriteRenderer spriter;
+        private SpriteRenderer player;
+
+        private Vector3 rightPos = new Vector3(0.35f, -0.15f, 0);
+        private Vector3 rightPosReverse = new Vector3(-0.15f, -0.15f, 0);
+        Quaternion leftRot = Quaternion.Euler(0, 0, -35);
+        Quaternion leftRotReverse = Quaternion.Euler(0, 0, -135);
+
+        private void Awake()
+        {
+            player = GetComponentsInParent<SpriteRenderer>()[1];
+        }
+
+        private void LateUpdate()
+        {
+            var isReverse = player.flipX;
+            if (isLeft)
+            {
+                transform.localRotation = isReverse ? leftRotReverse : leftRot;
+                spriter.flipY = isReverse;
+                spriter.sortingOrder = isReverse ? 4 : 6;
+            }
+            else
+            {
+                transform.localPosition = isReverse ? rightPosReverse : rightPos;
+                spriter.flipX = isReverse;
+                spriter.sortingOrder = isReverse ? 6 : 4;
+            }
+        }
+    }
+}
